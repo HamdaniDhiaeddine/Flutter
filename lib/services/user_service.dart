@@ -124,4 +124,27 @@ print('Unban Response Status Code: ${response.statusCode}');
   }
 }
 
+Future<bool> updateUserProfile(User user) async {
+  try {
+    final authToken = await AuthService().getStoredToken();
+    if (authToken == null) {
+      throw Exception("No authentication token found");
+    }
+
+    final response = await http.put(
+      Uri.parse('$baseUrl/profile-update'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authToken',
+      },
+      body: json.encode(user.toJson()),
+    );
+
+    return response.statusCode == 200;
+  } catch (e) {
+    print('Error updating user profile: $e');
+    return false;
+  }
+}
+
 }

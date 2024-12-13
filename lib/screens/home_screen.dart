@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/room_provider.dart';
 import '../services/user_service.dart';
+import 'admin_profile_screen.dart';
 import 'create_room_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -50,13 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
             floating: true,
             pinned: true,
             snap: false,
-            backgroundColor: const Color(0xFF4E65FF),
+            backgroundColor: Colors.white,
+            elevation: 1,
             title: Text(
               'Admin Dashboard',
               style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            iconTheme: IconThemeData(color: Colors.black87),
             actions: [
               IconButton(
                 icon: Icon(Icons.logout, size: 30),
@@ -85,19 +89,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           _buildStatCard(
                             icon: Icons.people,
                             title: 'Total Users',
-                            value: '$_totalUsers', // Replace with actual user count
+                            value: '$_totalUsers',
                             color: Colors.blue,
                           ),
                           _buildStatCard(
                             icon: Icons.room,
                             title: 'Total Rooms',
-                            value: '$_activeRooms', // Replace with actual room count
+                            value: '$_activeRooms',
                             color: Colors.purple,
                           ),
                           _buildStatCard(
                             icon: Icons.block,
                             title: 'Banned Users',
-                            value: '$_bannedUsers', // Replace with actual banned user count
+                            value: '$_bannedUsers',
                             color: Colors.red,
                           ),
                         ],
@@ -128,6 +132,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildActionCard(
+                        icon: Icons.person,
+                        title: 'My Profile',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => AdminProfileScreen()),
+                          );
+                        },
+                      ),
+                      _buildActionCard(
                         icon: Icons.add,
                         title: 'Create Room',
                         onTap: () {
@@ -137,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                       ),
+                      
                       _buildActionCard(
                         icon: Icons.block,
                         title: 'Manage Users',
@@ -190,29 +205,47 @@ class _HomeScreenState extends State<HomeScreen> {
     required Color color,
   }) {
     return Container(
-      width: 100,
-      padding: EdgeInsets.all(12),
+      width: 120, // Increased width
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white, // White background
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 6,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, color: color, size: 30),
-          SizedBox(height: 8),
+          Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 30),
+          ),
+          SizedBox(height: 12),
           Text(
             value,
             style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: color,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
             ),
           ),
+          SizedBox(height: 4),
           Text(
             title,
             style: TextStyle(
-              fontSize: 12,
-              color: Colors.white,
+              fontSize: 14,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
@@ -228,29 +261,38 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 100,
-        padding: EdgeInsets.all(12),
+        width: 120,
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.2),
               spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
+              blurRadius: 6,
+              offset: Offset(0, 4),
             ),
           ],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.blue, size: 30),
-            SizedBox(height: 8),
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: Colors.blue, size: 30),
+            ),
+            SizedBox(height: 12),
             Text(
               title,
               style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
               ),
             ),
           ],
@@ -285,29 +327,53 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildActivityItem({
-
     required IconData icon,
     required String title,
     required String subtitle,
     required String time,
   }) {
-    return ListTile(
-      leading: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(8),
+    return Container(
+      margin: EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        leading: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: Colors.blue, size: 24),
         ),
-        child: Icon(icon, color: Colors.blue),
-      ),
-      title: Text(
-        title,
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(subtitle),
-      trailing: Text(
-        time,
-        style: TextStyle(color: Colors.grey),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(color: Colors.grey[600]),
+        ),
+        trailing: Text(
+          time,
+          style: TextStyle(
+            color: Colors.grey[500],
+            fontSize: 12,
+          ),
+        ),
       ),
     );
   }

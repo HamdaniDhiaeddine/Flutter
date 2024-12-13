@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -41,5 +42,20 @@ class AuthService {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('authToken');
+  }
+  // New method to extract user ID from token
+  Future<String?> getCurrentUserId() async {
+    final token = await getStoredToken();
+    if (token != null) {
+      try {
+        // Decode the JWT token to get the user ID
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+        return decodedToken['userId']; // Adjust the key based on your token structure
+      } catch (e) {
+        print('Error decoding token: $e');
+        return null;
+      }
+    }
+    return null;
   }
 }
