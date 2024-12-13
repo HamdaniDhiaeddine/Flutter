@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'providers/notification_provider.dart';
+import 'providers/theme_provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/users_list_screen.dart';
@@ -19,6 +21,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()..loadAuthToken()),
         ChangeNotifierProvider(create: (_) => RoomProvider()), // Add RoomProvider
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ],
       child: MaterialApp(
         title: 'User Management App',

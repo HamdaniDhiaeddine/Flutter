@@ -117,7 +117,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                             Navigator.pushReplacementNamed(context, '/');
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
+                            backgroundColor: const Color.fromARGB(255, 81, 80, 80),
                             foregroundColor: Colors.white,
                             padding: EdgeInsets.symmetric(
                               horizontal: 32,
@@ -128,7 +128,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                             ),
                           ),
                           child: Text(
-                            'Logout',
+                            'change account',
                             style: TextStyle(fontSize: 16),
                           ),
                         ),

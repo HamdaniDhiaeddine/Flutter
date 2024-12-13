@@ -34,33 +34,7 @@ class RoomService {
     }
   }
 
-  Future<Room?> getRoomDetails(String roomId) async {
-    try {
-      final authToken = await AuthService().getStoredToken();
-      if (authToken == null) {
-        throw Exception("No authentication token found");
-      }
-
-      final response = await http.get(
-        Uri.parse('$baseUrl/roomDetails/$roomId'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $authToken',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> roomJson = json.decode(response.body);
-        return Room.fromJson(roomJson);
-      } else {
-        print('Failed to load room details: ${response.body}');
-        return null;
-      }
-    } catch (e) {
-      print('Error fetching room details: $e');
-      return null;
-    }
-  }
+  
 
   Future<Room?> createRoom({
     required String name,
@@ -105,4 +79,33 @@ class RoomService {
       return null;
     }
   }
+
+  Future<Room?> getRoomDetails(String roomId) async {
+  try {
+    final authToken = await AuthService().getStoredToken();
+    if (authToken == null) {
+      throw Exception("No authentication token found");
+    }
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/roomDetails/$roomId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      final Map<String, dynamic> roomJson = responseBody['room'];
+      return Room.fromJson(roomJson);
+    } else {
+      print('Failed to load room details: ${response.body}');
+      return null;
+    }
+  } catch (e) {
+    print('Error fetching room details: $e');
+    return null;
+  }
+}
 }

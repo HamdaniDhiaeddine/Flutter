@@ -39,9 +39,9 @@ class _UsersListScreenState extends State<UsersListScreen> {
                   final user = users[index];
                   return Card(
                     key: ValueKey(user.id),
-                    elevation: 4,
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     child: ListTile(
                       contentPadding: EdgeInsets.all(16),
                       title: Text(

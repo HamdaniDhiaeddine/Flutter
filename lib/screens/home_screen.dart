@@ -5,6 +5,7 @@ import '../providers/room_provider.dart';
 import '../services/user_service.dart';
 import 'admin_profile_screen.dart';
 import 'create_room_screen.dart';
+import 'settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -56,11 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text(
               'Admin Dashboard',
               style: TextStyle(
-                color: Colors.black87,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            iconTheme: IconThemeData(color: Colors.black87),
+            iconTheme: IconThemeData(color: Colors.white),
             actions: [
               IconButton(
                 icon: Icon(Icons.logout, size: 30),
@@ -159,13 +160,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           // This will be handled by bottom navigation in MainScreen
                         },
                       ),
-                      _buildActionCard(
-                        icon: Icons.settings,
-                        title: 'Settings',
-                        onTap: () {
-                          // TODO: Implement settings page
-                        },
-                      ),
+                     _buildActionCard(
+  icon: Icons.settings,
+  title: 'Settings',
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => SettingsScreen()),
+    );
+  },
+),
                     ],
                   ),
                 ],

@@ -4,7 +4,7 @@ class Room {
   final String name;
   final String type;
   final Map<String, dynamic>? createdBy;
-  final int participantsCount;
+  late final int participantsCount;
   final String? subject;
   final int capacity;
   final bool videoSessionActive;
@@ -16,7 +16,7 @@ class Room {
     required this.name,
     required this.type,
     this.createdBy,
-    this.participantsCount = 0,
+    required this.participantsCount ,
     this.subject,
     this.capacity = 10,
     this.videoSessionActive = false,
