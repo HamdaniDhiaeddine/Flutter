@@ -19,15 +19,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.fromARGB(255, 255, 255, 255),
-              Color.fromARGB(255, 255, 255, 255),
-            ],
-          ),
-        ),
+    image: DecorationImage(
+      image: AssetImage('images/login_background.jpg'),
+      fit: BoxFit.cover,
+    ),
+    color: Colors.white.withOpacity(0.7),
+  ),
         child: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -44,152 +41,170 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-              child: Row(
+              
+              child: Column(
                 children: [
-                  // Left Side (Logo and Description)
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(40),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.admin_panel_settings_rounded,
-                            size: 100,
-                            color: Color(0xFF4E65FF),
-                          ),
-                          SizedBox(height: 24),
-                          Text(
-                            'Welcome to Admin Dashboard',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF4E65FF),
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          Text(
-                            'Please log in to access the Admin Dashboard.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Right Side (Login Form)
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
-                        ),
-                      ),
-                      padding: EdgeInsets.all(40),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Email Input
-                            _buildInputField(
-                              controller: _emailController,
-                              hintText: 'Email Address',
-                              prefixIcon: Icons.email_rounded,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
-                                } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                                  return 'Please enter a valid email address';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 16),
-
-                            // Password Input
-                            _buildInputField(
-                              controller: _passwordController,
-                              hintText: 'Password',
-                              prefixIcon: Icons.lock_rounded,
-                              obscureText: !_isPasswordVisible,
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _isPasswordVisible 
-                                    ? Icons.visibility_rounded 
-                                    : Icons.visibility_off_rounded,
-                                  color: Colors.grey,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _isPasswordVisible = !_isPasswordVisible;
-                                  });
-                                },
+                  Icon(
+                                Icons.admin_panel_settings_rounded,
+                                size: 100,
+                                color: Color(0xFF4E65FF),
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your password';
-                                } else if (value.length < 6) {
-                                  return 'Password should be at least 6 characters';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 24),
 
-                            // Login Button
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (_formKey.currentState?.validate() ?? false) {
-                                  final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                                  bool isLoggedIn = await authProvider.login(
-                                    _emailController.text.trim(),
-                                    _passwordController.text.trim(),
-                                  );
-                                  if (isLoggedIn) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(builder: (_) => MainScreen()),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Login failed'),
-                                        backgroundColor: Colors.redAccent,
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF4E65FF),
-                                foregroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                elevation: 5,
-                              ),
-                              child: Text(
-                                'Login',
+                  Row(
+                    
+                    children: [
+                      
+                      // Left Side (Logo and Description)
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.all(40),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+      'images/logo.png',
+      width: 150,  // Adjust width as needed
+      height: 150, // Adjust height as needed
+    ),
+                              
+                              
+                              SizedBox(height: 24),
+                              Text(
+                                'Welcome to Admin Dashboard',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 24,
                                   fontWeight: FontWeight.bold,
+                                  color: Color(0xFF4E65FF),
                                 ),
                               ),
-                            ),
-                          ],
+                              SizedBox(height: 16),
+                              Text(
+                                'Please log in to access the Admin Dashboard.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
+                  
+                  
+                      // Right Side (Login Form)
+                      Expanded(
+                        
+                        child: Container(
+                          
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
+                          ),
+                          padding: EdgeInsets.all(40),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Email Input
+                                _buildInputField(
+                                  controller: _emailController,
+                                  hintText: 'Email Address',
+                                  prefixIcon: Icons.email_rounded,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your email';
+                                    } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                                      return 'Please enter a valid email address';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(height: 16),
+                  
+                                // Password Input
+                                _buildInputField(
+                                  controller: _passwordController,
+                                  hintText: 'Password',
+                                  prefixIcon: Icons.lock_rounded,
+                                  obscureText: !_isPasswordVisible,
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _isPasswordVisible 
+                                        ? Icons.visibility_rounded 
+                                        : Icons.visibility_off_rounded,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isPasswordVisible = !_isPasswordVisible;
+                                      });
+                                    },
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your password';
+                                    } else if (value.length < 6) {
+                                      return 'Password should be at least 6 characters';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(height: 24),
+                  
+                                // Login Button
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState?.validate() ?? false) {
+                                      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                                      bool isLoggedIn = await authProvider.login(
+                                        _emailController.text.trim(),
+                                        _passwordController.text.trim(),
+                                      );
+                                      if (isLoggedIn) {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(builder: (_) => MainScreen()),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Login failed'),
+                                            backgroundColor: Colors.redAccent,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF4E65FF),
+                                    foregroundColor: Colors.white,
+                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    elevation: 5,
+                                  ),
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
